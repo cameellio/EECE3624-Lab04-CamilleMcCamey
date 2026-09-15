@@ -1,10 +1,10 @@
 /**************************************************************************
  *     File: Lab04.asm
- * Lab Name: 
- *   Author: 
- *  Created: 
+ * Lab Name: Lab04 What's Your Calling?
+ *   Author: Julia Camille McCamey
+ *  Created: Sep 15, 2026
  *
- * This program...
+ * This program
  *************************************************************************/ 
  .def n = R16
 .def result = R17
@@ -28,15 +28,30 @@ here:
 		RJMP here	; loop forever
 
 factN:
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	; Comments regarding the factN subroutine go here
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	; recursive factorial code begins here
+	IN YL, SPL
+	IN YH, SPH
 
+	LDD  R18, Y+2
 
+	CPI R18, 1
+	BREQ BaseCase
 
 recursiveCase:
+	MOV R19, R18
+	SUBI R19, 1
 
+	PUSH R19
+	CALL factN
 
-	ret 
+	POP R20
+
+	MUL R18, R20
+
+	PUSH R0
+	ret
+
+BaseCase:
+	LDI R21, 1
+	PUSH R21
+	ret
 	; return from the factN subroutine
